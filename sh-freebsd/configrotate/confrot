@@ -1,0 +1,64 @@
+#!/bin/sh -
+#########################################
+#####=====----- VARIABLES -----=====#####
+#########################################
+CONF_LIST='/root/bin/filerot/confrot.conf'
+
+########################################################
+#####=====----- FILE ROTATION SUBROUTINE -----=====#####
+########################################################
+rotate_asis() {
+    for CUR_FILE in $(/bin/ls ${1}.?? | /usr/bin/sort -r)
+    do
+        NUM=$(echo ${CUR_FILE} | /usr/bin/sed -e 's/\/.*\///' | /usr/bin/sed -e 's/^.*\.//')
+        if [ "$(echo ${NUM} | /usr/bin/grep -e '0[0-8]')" = "${NUM}" ] ; then
+            [ -f "${1}.${NUM}" ] && /bin/mv -f "${1}.${NUM}" "${1}.0$((0x$NUM + 1))"
+        elif [ "$(echo ${NUM} | /usr/bin/grep -e '09')" = "09" ] ; then
+            [ -f "${1}.09" ] && /bin/mv -f "${1}.09" "${1}.10"
+        else
+            if [ -f "${1}.${NUM}" ] ; then
+                if [ $(/usr/bin/find -d ${DIR_NEED_ROTATE} -name ${FILE_NEED_ROTATE}.${NUM} -mtime -92d) ] ; then
+                    /bin/mv -f "${1}.${NUM}" "${1}.$(($NUM + 1))"
+                else
+                    /bin/rm -f "${1}.${NUM}"
+                fi
+            fi
+        fi
+    done
+    if [ -f "${1}" ] ; then
+        /bin/cp -fp "${1}" "${1}.00"
+        /usr/sbin/chown root:nogroup "${1}.00"
+        /bin/chmod 0640 "${1}.00"
+    fi
+}
+
+####################################
+#####=====----- MAIN -----=====#####
+####################################
+if [ -f "${CONF_LIST}" ] ; then
+    CONF_FILES=$(/bin/cat ${CONF_LIST} | /usr/bin/sed -e 's/\#.*$//' | /usr/bin/grep -e '^/\w')
+else
+    /usr/bin/logger -p uucp.err "${0}: ERROR! File ${CONF_LIST} does not exist!"
+    exit 1
+fi
+
+for WHAT_NEED_ROTATE in ${CONF_FILES}
+do
+    if [ -f "${WHAT_NEED_ROTATE}.00" ] ; then
+        DIR_NEED_ROTATE=$(echo ${WHAT_NEED_ROTATE} | /usr/bin/sed -e 's/\/[^/]*$//')
+        FILE_NEED_ROTATE=$(echo ${WHAT_NEED_ROTATE} | /usr/bin/sed -e 's/\/.*\///')
+        if [ $(/usr/bin/find -d ${DIR_NEED_ROTATE} -name ${FILE_NEED_ROTATE} -newer "${WHAT_NEED_ROTATE}.00") ] ; then
+            if [ $(/usr/bin/diff -abBw -I "^\!.*" -I "^\:.*" -I "^ntp\ clock\-period.*" "${WHAT_NEED_ROTATE}" "${WHAT_NEED_ROTATE}.00" | /usr/bin/wc -l) -gt 0 ] ; then
+                rotate_asis ${WHAT_NEED_ROTATE}
+                /usr/bin/logger -p uucp.notice "${0}: Registered new backup copy of ${WHAT_NEED_ROTATE}"
+            fi
+        fi
+    elif [ -f "${WHAT_NEED_ROTATE}" ] ; then
+        /bin/cp -fp "${WHAT_NEED_ROTATE}" "${WHAT_NEED_ROTATE}.00"
+        /usr/sbin/chown root:nogroup "${WHAT_NEED_ROTATE}.00"
+        /bin/chmod 0640 "${WHAT_NEED_ROTATE}.00"
+        /usr/bin/logger -p uucp.notice "${0}: Created the first backup copy of ${WHAT_NEED_ROTATE}"
+    fi
+done
+
+###########################################################################
