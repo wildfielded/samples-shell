@@ -13,5 +13,6 @@ Strange requirements was:
 - The number of files and their paths can change, i.e. keeping filelist in a separate file (with comments support) is more convenient.
 - If there were no changes, nothing happens.
 - Else, current **configfile** is copied to **configfile.00**, **\*.00** is copied to **\*.01**, and so on.
-- The number of configfile versions must be at least 10. When trailing version (**\*.11** and furthermore) is older than 92 days (3 months), it should be deleted.
+- The number of configfile versions must be at least 10. Trailing versions (**\*.11** and furthermore) should be deleted only when they are older than 92 days (3 months).
+- Need some logging.
 ----
