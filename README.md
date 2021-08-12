@@ -12,7 +12,7 @@ Strange requirements were as follows:
 - The script is launched daily by cron after the end of work.
 - The number of files and their paths can change, i.e. keeping filelist in a separate file (with comments support) is more convenient.
 - If there were no changes, nothing happens.
-- Else, current **configfile** is copied to **configfile.00**, **\*.00** is copied to **\*.01**, and so on.
-- The number of configfile versions must be at least 10. Trailing versions (**\*.11** and furthermore) should be deleted only when they are older than 92 days (3 months).
-- Need some logging.
+- Else, current **configfile** is copied to **configfile.00**, **\*.00** is moved to **\*.01**, and so on.
+- The number of configfile versions must be at least 10. Trailing versions (**\*.11** and furthermore) should only be deleted if they are older than 92 days (3 months).
+- We need some logging.
 ----
