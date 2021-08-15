@@ -1,0 +1,16 @@
+#!/bin/sh
+#####=====----- Configured by Ded Wildfield -----=====#####
+
+if [ ! -f /usr/local/ap-mailfilter3/run/kas-milter.pid ] ; then
+    /usr/local/etc/rc.d/kas3-milter.sh start && /usr/bin/logger -p uucp.warn "PID-file does not exist. kas-milter restarted!"
+    echo "PID-file does not exist. kas-milter restarted!"
+    exit 0
+elif [ -f /usr/local/ap-mailfilter3/run/kas-milter.pid ] ; then
+    PIDNUM=`/bin/cat /usr/local/ap-mailfilter3/run/kas-milter.pid`
+    if [ "x`/bin/ps -p ${PIDNUM} | /usr/bin/grep ${PIDNUM}`" = "x" ] ; then
+        /usr/local/etc/rc.d/kas3-milter.sh start && /usr/bin/logger -p uucp.warn "PID-file exists, but process is dead. kas-milter restarted!"
+        echo "PID-file exists, but process is dead. kas-milter restarted!"
+    fi
+fi
+
+###########################################################################

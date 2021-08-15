@@ -1,14 +1,15 @@
-# Shell scripting examples for references    
-### 1. Mail traffic counter    
+# Shell scripting examples for references
+1. Mail traffic counter    
 [**`/sh-freebsd/mailstat/mailstat`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/mailstat/mailstat)    
 Standard sendmail's log processed with grep, sed, mreport (now moved from ports),
 then generate HTML file with statistics (per-user, in/out total, in/out local,
 in/out with headquarter).    
 ----
-### 2. Proc Checkers    
-[**`/sh-freebsd/check/checkklms`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/check/checkklms) - Sometimes the Kaspersky Antivirus needs to be kicked    
+2. Proc Checkers    
+[**`/sh-freebsd/check/checkkas`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/check/checkkas) - Sometimes the Kaspersky Anti-Spam needs to be kicked    
+[**`/sh-freebsd/check/checkklms`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/check/checkklms) - And sometimes the Kaspersky Anti-Virus needs to be kicked too    
 ----
-### 3. Cisco configuration files rotation    
+3. Cisco configuration files rotation    
 [**`/sh-freebsd/configrotate/confrot`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/configrotate/confrot) - Script    
 [**`/sh-freebsd/configrotate/confrot.conf`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/configrotate/confrot.conf) - It's config    
 
