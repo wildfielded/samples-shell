@@ -1,0 +1,15 @@
+#!/bin/sh
+#####=====----- Configured by Ded Wildfield -----=====#####
+
+/sbin/ping -c 10 172.16.172.254 2>&1 1>/dev/null
+if [ ${?} = 0 ] ; then
+#####    SUCCSESS="1"
+    /usr/bin/logger -p uucp.crit "bge0 OK"
+else
+    /sbin/ifconfig bge0 down
+    sleep 3
+    /sbin/ifconfig bge0 up
+    /usr/bin/logger -p uucp.crit "bge0 reupped"
+fi
+
+###########################################################################

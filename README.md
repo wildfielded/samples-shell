@@ -6,6 +6,7 @@ then generate HTML file with statistics (per-user, in/out total, in/out local,
 in/out with headquarter).    
 ----
 2. Proc Checkers    
+[**`/sh-freebsd/check/checkbge`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/check/checkbge) - One server had a very buggy NIC **`bge`**    
 [**`/sh-freebsd/check/checkkas`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/check/checkkas) - Sometimes the Kaspersky Anti-Spam needs to be kicked    
 [**`/sh-freebsd/check/checkklms`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/check/checkklms) - And sometimes the Kaspersky Anti-Virus needs to be kicked too    
 ----
