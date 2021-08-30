@@ -1,0 +1,40 @@
+#!/bin/sh -
+################################################################
+##### Synchronizing files between BASTION and FORT servers #####
+#####=====----- Copyright 2007 by Ded Wildfield  -----=====#####
+################################################################
+
+echousage() {
+    echo "Usage: ${0} \$1"
+    echo '    $1 - full path to file or directory for transfer'
+    echo ''
+    exit 1
+}
+
+if [ "${1}" ] ; then
+    FOR_SYNC="${1}"
+else
+    echousage
+fi
+
+if [ -f /BASTION ] ; then
+    TARGET='172.16.172.240'
+elif [ -f /FORT ] ; then
+    TARGET='172.16.172.250'
+else
+    echo "${0}: ERROR! Target is not found."
+    echousage
+fi
+
+if [ -f "${FOR_SYNC}" ] ; then
+    /usr/local/bin/rsync -vrlpogtW --fileflags --delete --force-delete ${FOR_SYNC} rsync://${TARGET}/SERVERROOT${FOR_SYNC} \
+        && echo "File ${FOR_SYNC} synchronized to ${TARGET}."
+elif [ -d "${FOR_SYNC}" ] ; then
+    /usr/local/bin/rsync -vrlpogtW --fileflags --delete --force-delete ${FOR_SYNC}/ rsync://${TARGET}/SERVERROOT${FOR_SYNC} \
+        && echo "Directory ${FOR_SYNC} synchronized to ${TARGET}."
+else
+    echo "${0}: ERROR! ${FOR_SYNC} is not found."
+    echousage
+fi
+
+##########################################################################

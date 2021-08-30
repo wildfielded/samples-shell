@@ -23,3 +23,8 @@ Strange requirements were as follows:
 - The number of configfile versions must be at least 10. Trailing versions (**`\*.11`** and furthermore) should only be removed if they are older than 92 days (3 months).
 - We need some logging.
 ----
+4. Files synchronizing    
+[**`/sh-freebsd/syncfiles/syncf`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/syncfiles/syncf) - Makes files the same on different servers    
+- Uses **rsync** (that is, it syncs new files only).
+- Format: **`syncf /path/to/dir/file`** (for specific file) or **`syncf /path/to/dir`** (full directory).
+----
