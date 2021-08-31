@@ -1,5 +1,5 @@
 #!/bin/sh
-#####=====----- Configured by Ded Wildfield -----=====#####
+##### Run by cron
 
 if [ -z "${source_rc_confs_defined}" ] ; then
     if [ -r /etc/defaults/rc.conf ] ; then

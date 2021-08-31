@@ -1,5 +1,5 @@
 #!/bin/sh
-#####=====----- Configured by Ded Wildfield -----=====#####
+##### Run manually or by cron
 
 if [ ! -f /usr/local/ap-mailfilter3/run/kas-milter.pid ] ; then
     /usr/local/etc/rc.d/kas3-milter.sh start && /usr/bin/logger -p uucp.warn "PID-file does not exist. kas-milter restarted!"
