@@ -1,0 +1,48 @@
+#!/bin/sh
+##### Run manually with nohup and in background
+
+sleep 60
+
+/bin/sh /usr/local/etc/rc.d/rsyncd stop 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/proftpd stop 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/apache24 stop 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/squid stop 2>&1 1>/dev/null
+/bin/sh /etc/rc.d/sendmail stop 2>&1 1>/dev/null
+/bin/sh /etc/rc.d/syslogd stop 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/named stop 2>&1 1>/dev/null
+
+/bin/sync
+sleep 5
+
+[ -d /.snap ] && /sbin/mount -u -o snapshot /.snap/root / ##### && echo '/.snap/root done'
+[ -d /var/.snap ] && /sbin/mount -u -o snapshot /var/.snap/var /var ##### && echo '/var/.snap/var done'
+[ -d /usr/.snap ] && /sbin/mount -u -o snapshot /usr/.snap/usr /usr ##### && echo '/usr/.snap/usr done'
+[ -d /usr/local/.snap ] && /sbin/mount -u -o snapshot /usr/local/.snap/usrlocal /usr/local ##### && echo '/usr/local/.snap/usrlocal done'
+
+/bin/sh /usr/local/etc/rc.d/named start 2>&1 1>/dev/null
+/bin/sh /etc/rc.d/syslogd start 2>&1 1>/dev/null
+/bin/sh /etc/rc.d/sendmail start 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/squid start 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/apache24 start 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/proftpd start 2>&1 1>/dev/null
+/bin/sh /usr/local/etc/rc.d/rsyncd start 2>&1 1>/dev/null
+
+#####=====----- Dumping to the mounted share -----=====#####
+/sbin/dump -a -f /mnt/UNIX/DUMP/BASTION.root /.snap/root
+/sbin/dump -a -f /mnt/UNIX/DUMP/BASTION.var /var/.snap/var
+/sbin/dump -a -f /mnt/UNIX/DUMP/BASTION.usr /usr/.snap/usr
+/sbin/dump -a -f /mnt/UNIX/DUMP/BASTION.usrlocal /usr/local/.snap/usrlocal
+
+#####=====----- Alternatively, dumping to FTP-server by curl -----=====#####
+##### /sbin/dump -a -f - /.snap/root | /usr/local/bin/curl -s -T - -u ftp:anonymous ftp://castle1/incoming/BASTION.root
+##### /sbin/dump -a -f - /var/.snap/var | /usr/local/bin/curl -s -T - -u ftp:anonymous ftp://castle1/incoming/BASTION.var
+##### /sbin/dump -a -f - /usr/.snap/usr | /usr/local/bin/curl -s -T - -u ftp:anonymous ftp://castle1/incoming/BASTION.usr
+##### /sbin/dump -a -f - /usr/local/.snap/usrlocal | /usr/local/bin/curl -s -T - -u ftp:anonymous ftp://castle1/incoming/BASTION.usrlocal
+
+#####=====----- or by generic ftp-client -----=====#####
+##### /sbin/dump -a -f - /.snap/root | /usr/bin/ftp -V -u ftp://ftp:anonymous@castle2/incoming/BASTION.root -
+##### /sbin/dump -a -f - /var/.snap/var | /usr/bin/ftp -V -u ftp://ftp:anonymous@castle2/incoming/BASTION.var -
+##### /sbin/dump -a -f - /usr/.snap/usr | /usr/bin/ftp -V -u ftp://ftp:anonymous@castle2/incoming/BASTION.usr -
+##### /sbin/dump -a -f - /usr/local/.snap/usrlocal | /usr/bin/ftp -V -u ftp://ftp:anonymous@castle2/incoming/BASTION.usrlocal -
+
+##########################################################################

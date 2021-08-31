@@ -1,6 +1,5 @@
 #!/bin/sh
 ##### Run by cron
-#####=====----- Configured by Ded Wildfield -----=====#####
 
 /sbin/ping -c 10 172.16.172.254 2>&1 1>/dev/null
 if [ ${?} = 0 ] ; then

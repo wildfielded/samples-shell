@@ -28,3 +28,6 @@ Strange requirements were as follows:
 - Uses **rsync** (that is, it syncs new files only).
 - Format: **`syncf /path/to/dir/file`** (for specific file) or **`syncf /path/to/dir`** (full directory).
 ----
+5. Dumping    
+[**`/sh-freebsd/snaps/snaps`**](https://github.com/wildfielded/samples-shell/blob/master/sh-freebsd/snaps/snaps) - The simplest script for snapshotting slices and then dumping to SMB or FTP resource.    
+----
