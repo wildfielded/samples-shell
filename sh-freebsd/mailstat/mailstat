@@ -4,7 +4,7 @@
 #####----- VARIABLES -----#####
 ###############################
 MAIL_LOG='/var/log/maillog.0.gz'
-USER_LIST=`/bin/cat /root/bin/mailstat/user_list`
+USER_LIST=`/bin/cat /root/bin/mailstat/user_list`    ##### user_list - one system username per line
 TMP_DIR='/tmp/mailstat'
 DRAFT_LOG="${TMP_DIR}/draftlog"
 DRAFT_REPORT="${TMP_DIR}/mreport"
